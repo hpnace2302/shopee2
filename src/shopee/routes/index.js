@@ -13,6 +13,7 @@ import { helper } from '../helper/common'
 const HomeShopee = lazy(() => import('../pages/home/index'))
 const DetailShopee = lazy(() => import('../pages/detail/index'))
 const LoginShopee = lazy(() => import('../pages/login/login'))
+const RegisterShopee = lazy(() => import('../pages/login/register'))
 const CartShopee = lazy(() => import('../pages/cart/index'))
 
 function IsLoginUserShopee({ children, ...rest }) {
@@ -75,20 +76,15 @@ const RoutesApp = () => {
             </LayoutShopee>
           </PrivateRouteShopee>
           <PrivateRouteShopee path="/cart">
-            {/* <LayoutShopee> */}
-                <CartShopee/>
-            {/* </LayoutShopee> */}
+            <CartShopee/>
           </PrivateRouteShopee>
           <PrivateRouteShopee path="/product/:slug/:id">
-            {/* <LayoutShopee> */}
-                <DetailShopee/>
-            {/* </LayoutShopee> */}
+            <DetailShopee/>
           </PrivateRouteShopee>
           <IsLoginUserShopee path="/login">
-            {/* <LayoutShopee> */}
-              <LoginShopee/>
-            {/* </LayoutShopee> */}
+            <LoginShopee/>
           </IsLoginUserShopee>
+            <RegisterShopee path="/register"/>
         </Switch>
       </Suspense>
     </Router>
