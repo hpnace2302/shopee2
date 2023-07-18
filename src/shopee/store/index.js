@@ -22,7 +22,7 @@ const configStore = (defaultState = {}) => {
   const store = createStore(
     rootReducerPersistent,
     defaultState,
-    applyMiddleware(logger, sagaMiddleware)
+    applyMiddleware(sagaMiddleware)
   )
   // run saga
   sagaMiddleware.run(rootSaga)

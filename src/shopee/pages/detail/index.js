@@ -6,9 +6,9 @@ import FooterShopee from '../../component/partials/footer'
 import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import * as actions from './actions'
-import { 
-  getLoadingDetail, 
-  getDataDetailProduct, 
+import {
+  getLoadingDetail,
+  getDataDetailProduct,
   getMessNotFoundDataProduct
 } from './reselect'
 import { getDataProducts } from '../home/reselect'
@@ -34,15 +34,21 @@ const slideNumberStyle = {
 
 const DetailShopee = () => {
   const history = useHistory()
-  
+
   const toCart = () => {
     history.push('/cart')
   }
-  
+
   const { id } = useParams()
   const dispatch = useDispatch()
 
-  const {loading, detailData, messageError, messCart, dataAllProduct } = useSelector(createStructuredSelector({
+  const {
+    loading,
+    detailData,
+    messageError,
+    messCart,
+    dataAllProduct
+  } = useSelector(createStructuredSelector({
     loading: getLoadingDetail,
     detailData: getDataDetailProduct,
     messageError: getMessNotFoundDataProduct,
@@ -81,10 +87,20 @@ const DetailShopee = () => {
       </>
     )
   }
-  const priceDiscount = detailData.price * (100 - detailData.discount) / 100 
+  const priceDiscount = detailData.price * (100 - detailData.discount) / 100
 
   const scrollTop = () => {
     window.scrollTo(0, 0)
+  }
+
+  if (helper.isEmptyObject(detailData)) {
+    return (
+      <>
+        <HeaderShopee/>
+          <h3>no data</h3>
+        <FooterShopee/>
+      </>
+    )
   }
 
   return (
@@ -94,11 +110,9 @@ const DetailShopee = () => {
         <div className="grid wide">
           <div style={{paddingBottom: '36px'}} className="row sm-gutter app__content">
             <div style={{cursor: 'pointer'}} className="content__item col c-7">
-              {/* <Image src={detailData.image} alt="" className="content__item--img"/> */}
-              {/* {console.log(detailData.images)} */}
               <Carousel
                 data={detailData.images}
-                time={2000}
+                time={1000}
                 width="700px"
                 height="400px"
                 captionStyle={captionStyle}
@@ -112,6 +126,7 @@ const DetailShopee = () => {
                 slideImageFit="cover"
                 thumbnails={true}
                 thumbnailWidth="80px"
+                // automatic={true}
                 style={{
                   textAlign: "center",
                   maxWidth: "700px",
