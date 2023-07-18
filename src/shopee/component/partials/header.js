@@ -9,7 +9,8 @@ import { createStructuredSelector } from 'reselect'
 import { useSelector } from 'react-redux';
 
 const HeaderShopee = () => {
-  const infoUser = helper.getUsername()
+  // const infoUser = helper.getUsername()
+  const infoUser = 'abc'
   const history = useHistory()
   const { count } = useSelector(createStructuredSelector({
     count: getItemsCart,
