@@ -1,7 +1,6 @@
-import firebase from "firebase/app";
-import "firebase/auth";
+import { initializeApp } from 'firebase/app'
+import {getAuth} from 'firebase/auth'
 
-// Khai báo các thông tin cấu hình từ Firebase Console
 const firebaseConfig = {
   apiKey: "AIzaSyB27BFAKwmzJomLokBE6-H29c4oHqay7as",
   authDomain: "shopee-fake-ba879.firebaseapp.com",
@@ -9,9 +8,10 @@ const firebaseConfig = {
   storageBucket: "shopee-fake-ba879.appspot.com",
   messagingSenderId: "504216281323",
   appId: "1:504216281323:web:f1460901fe234ba7635eae",
-};
+}
 
-// Khởi tạo Firebase
-firebase.initializeApp(firebaseConfig);
+// Initialize Firebase and Firebase Authentication
+const app = initializeApp(firebaseConfig)
+const auth = getAuth(app)
 
-export const auth = firebase.auth();
+export {auth}

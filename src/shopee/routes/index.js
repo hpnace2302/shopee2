@@ -1,14 +1,16 @@
-import React, {lazy, Suspense} from 'react'
-import { 
+import React, {lazy, Suspense, useEffect, useState} from 'react'
+import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect
 } from 'react-router-dom'
-import { Skeleton } from 'antd'
+import {Skeleton} from 'antd'
 import LayoutShopee from '../component/layout'
-import { helper } from '../helper/common'
-
+import {helper} from '../helper/common'
+import {onAuthStateChanged} from 'firebase/auth'
+import {auth} from '../firebase'
+import {AuthProvider, useAuthValue} from "../authContext";
 
 const HomeShopee = lazy(() => import('../pages/home/index'))
 const DetailShopee = lazy(() => import('../pages/detail/index'))
@@ -16,77 +18,65 @@ const LoginShopee = lazy(() => import('../pages/login/login'))
 const RegisterShopee = lazy(() => import('../pages/login/register'))
 const CartShopee = lazy(() => import('../pages/cart/index'))
 
-function IsLoginUserShopee({ children, ...rest }) {
-  let auth = helper.fakeAuthLogin();
-  return (
-    <Route
-      {...rest}
-      render={({location}) =>
-        auth ? (
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: location }
-            }}
-          />
-        ) : (
-          children
-        )
-      }
-    >
+function PrivateRoute({children}) {
+  const {currentUser} = useAuthValue()
 
-    </Route>
-  )
+  if(!currentUser?.emailVerified){
+    return <Redirect to='/login' replace/>
+  }
+
+  return children
 }
 
-function PrivateRouteShopee({ children, ...rest }) {
-  let auth = helper.fakeAuthLogin();
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        auth ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location }
-            }}
-          />
-        )
-      }
-    />
-  );
+function IsLoginUserShopee({children}) {
+  const {currentUser} = useAuthValue()
+  console.log(currentUser);
+
+  if(currentUser){
+    return <Redirect to='/' replace/>
+  }
+
+  return children
 }
 
 const RoutesApp = () => {
-  return(
+  const [currentUser, setCurrentUser] = useState(null)
+  const [timeActive, setTimeActive] = useState(false)
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user)
+    })
+  }, [])
+
+  return (
     <Router>
-      <Suspense fallback={<Skeleton active />}>
-        <Switch>
-          <PrivateRouteShopee path="/" exact>
-            <LayoutShopee>
+      <AuthProvider value={{currentUser, timeActive, setTimeActive}}>
+        <Suspense fallback={<Skeleton active/>}>
+          <Switch>
+            <PrivateRoute path="/" exact>
+              <LayoutShopee>
                 <HomeShopee/>
-            </LayoutShopee>
-          </PrivateRouteShopee>
-          <PrivateRouteShopee path="/home">
-            <LayoutShopee>
+              </LayoutShopee>
+            </PrivateRoute>
+            <PrivateRoute path="/home">
+              <LayoutShopee>
                 <HomeShopee/>
-            </LayoutShopee>
-          </PrivateRouteShopee>
-          <PrivateRouteShopee path="/cart">
-            <CartShopee/>
-          </PrivateRouteShopee>
-          <PrivateRouteShopee path="/product/:slug/:id">
-            <DetailShopee/>
-          </PrivateRouteShopee>
-          <IsLoginUserShopee path="/login">
-            <LoginShopee/>
-          </IsLoginUserShopee>
+              </LayoutShopee>
+            </PrivateRoute>
+            <PrivateRoute path="/cart">
+              <CartShopee/>
+            </PrivateRoute>
+            <PrivateRoute path="/product/:slug/:id">
+              <DetailShopee/>
+            </PrivateRoute>
+            <IsLoginUserShopee path="/login">
+              <LoginShopee/>
+            </IsLoginUserShopee>
             <RegisterShopee path="/register"/>
-        </Switch>
-      </Suspense>
+          </Switch>
+        </Suspense>
+      </AuthProvider>
     </Router>
   )
 }

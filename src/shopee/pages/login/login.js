@@ -1,28 +1,11 @@
 import React, {useState} from 'react'
 import {Row, Col, Form, Input, Button} from 'antd'
-import {api} from '../../services/api'
-import {helper} from '../../helper/common'
 import {Link, useHistory} from "react-router-dom";
 import HeaderShopee from '../../component/partials/header'
 import FooterShopee from '../../component/partials/footer'
-import {useAuthState} from 'react-firebase-hooks/auth';
-import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-
 
 import 'antd/dist/antd.css';
 import firebase from "firebase/compat";
-
-// Cấu hình Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyB27BFAKwmzJomLokBE6-H29c4oHqay7as",
-  authDomain: "shopee-fake-ba879.firebaseapp.com",
-  projectId: "shopee-fake-ba879",
-  storageBucket: "shopee-fake-ba879.appspot.com",
-  messagingSenderId: "504216281323",
-  appId: "1:504216281323:web:f1460901fe234ba7635eae",
-};
-firebase.initializeApp(firebaseConfig);
 
 const Login = () => {
   const [errorLogin, setErrorLogin] = useState(null)
@@ -47,6 +30,7 @@ const Login = () => {
         console.log(errorMessage);
       });
   };
+
   const handleGoogleLogin = () => {
     // Tạo provider cho đăng nhập bằng Google
     const provider = new firebase.auth.GoogleAuthProvider();
