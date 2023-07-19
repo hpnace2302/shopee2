@@ -7,8 +7,8 @@ import {getItemsCart} from '../../pages/cart/reselect'
 import {createStructuredSelector} from 'reselect'
 import {useSelector} from 'react-redux';
 import {useAuthValue} from "../../authContext";
-import { auth } from '../../firebase'
-import { signOut } from 'firebase/auth'
+import {auth} from '../../firebase'
+import {signOut} from 'firebase/auth'
 
 const HeaderShopee = () => {
   const {currentUser} = useAuthValue()
@@ -139,7 +139,7 @@ const HeaderShopee = () => {
                 <div
                   style={{cursor: 'pointer'}}
                   className="user header__navbar-item header__navbar-item--strong header__navbar-item-login" key="user">
-                  Hi : {currentUser.displayName}
+                  Hi : {currentUser.displayName ? currentUser.displayName : currentUser.email}
                 </div>
                 <ul className="header__navbar-user-menu">
                   <li className="header__navbar-user-menu-item">

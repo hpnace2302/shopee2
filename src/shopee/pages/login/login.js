@@ -3,6 +3,8 @@ import {Row, Col, Form, Input, Button} from 'antd'
 import {Link, useHistory} from "react-router-dom";
 import HeaderShopee from '../../component/partials/header'
 import FooterShopee from '../../component/partials/footer'
+import {signInWithEmailAndPassword, signInWithPopup} from 'firebase/auth'
+import {auth} from '../../firebase'
 
 import 'antd/dist/antd.css';
 import firebase from "firebase/compat";
@@ -14,8 +16,8 @@ const Login = () => {
   const history = useHistory()
 
   const onFinish = (values) => {
-    const {email, password} = values
-    firebase.auth().signInWithEmailAndPassword(email, password)
+    const {username, password} = values
+      signInWithEmailAndPassword(auth, username, password)
       .then((userCredential) => {
         // Đăng nhập thành công
         const user = userCredential.user;
@@ -36,9 +38,7 @@ const Login = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
 
     // Thực hiện đăng nhập bằng Google
-    firebase
-      .auth()
-      .signInWithPopup(provider)
+    signInWithPopup(auth, provider)
       .then((result) => {
         // Đăng nhập thành công, chuyển hướng đến trang home
         console.log(result);

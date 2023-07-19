@@ -11,6 +11,7 @@ import {helper} from '../helper/common'
 import {onAuthStateChanged} from 'firebase/auth'
 import {auth} from '../firebase'
 import {AuthProvider, useAuthValue} from "../authContext";
+import VerifyEmail from "../pages/login/verifyEmail";
 
 const HomeShopee = lazy(() => import('../pages/home/index'))
 const DetailShopee = lazy(() => import('../pages/detail/index'))
@@ -74,6 +75,7 @@ const RoutesApp = () => {
               <LoginShopee/>
             </IsLoginUserShopee>
             <RegisterShopee path="/register"/>
+            <VerifyEmail path='/verify-email'/>
           </Switch>
         </Suspense>
       </AuthProvider>
