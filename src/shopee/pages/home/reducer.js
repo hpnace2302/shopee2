@@ -22,25 +22,31 @@ export const homeReducer = (state = initialState, action) => {
     case actions.GET_DATA_PRODUCT_SUCCESS:
       return {
         ...state,
-        ...{allProduct: action.data, 
-          errorProduct: {}, 
-          messageProduct: {}}
+        ...{
+          allProduct: action.data,
+          errorProduct: {},
+          messageProduct: {}
+        }
       }
     case actions.GET_DATA_PRODUCT_FAIL:
       return {
         ...state,
-        ...{errorProduct: action.error, 
-          allProduct: {}, 
-          messageProduct: {}}
+        ...{
+          errorProduct: action.error,
+          allProduct: {},
+          messageProduct: {}
+        }
       }
     case actions.NOT_FOUND_DATA_PRODUCT:
       return {
         ...state,
-        ...{errorProduct: {}, 
-        allProduct: {}, 
-        messageProduct: action.message}
+        ...{
+          errorProduct: {},
+          allProduct: {},
+          messageProduct: action.message
+        }
       }
     default:
       return state;
-  } 
+  }
 }

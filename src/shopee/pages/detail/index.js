@@ -3,7 +3,6 @@ import 'antd/dist/antd.css';
 import { Skeleton, message} from 'antd'
 import HeaderShopee from '../../component/partials/header'
 import FooterShopee from '../../component/partials/footer'
-import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import * as actions from './actions'
 import {
@@ -18,7 +17,7 @@ import { useSelector } from 'react-redux'
 import { addToCard } from '../cart/actions'
 import { getErrorAddCart } from '../cart/reselect'
 import NumberFormat from 'react-number-format';
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import '../../assets/detail.css'
 import CardShopee from '../home/component/card'
 import { Carousel } from 'react-carousel-minimal';
@@ -39,7 +38,8 @@ const DetailShopee = () => {
     history.push('/cart')
   }
 
-  const { id } = useParams()
+  const location = useLocation();
+  const id = location.pathname.split("/")[3]
   const dispatch = useDispatch()
 
   const {
