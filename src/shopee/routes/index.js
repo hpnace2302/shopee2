@@ -2,12 +2,10 @@ import React, {lazy, Suspense, useEffect, useState} from 'react'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
   Redirect
 } from 'react-router-dom'
 import {Skeleton} from 'antd'
 import LayoutShopee from '../component/layout'
-import {helper} from '../helper/common'
 import {onAuthStateChanged} from 'firebase/auth'
 import {auth} from '../firebase'
 import {AuthProvider, useAuthValue} from "../authContext";
@@ -42,7 +40,6 @@ function IsLoginUserShopee({children}) {
 
 const RoutesApp = () => {
   const [currentUser, setCurrentUser] = useState(null)
-  const [timeActive, setTimeActive] = useState(false)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -52,7 +49,7 @@ const RoutesApp = () => {
 
   return (
     <Router>
-      <AuthProvider value={{currentUser, timeActive, setTimeActive}}>
+      <AuthProvider value={{currentUser}}>
         <Suspense fallback={<Skeleton active/>}>
           <Switch>
             <PrivateRoute path="/" exact>

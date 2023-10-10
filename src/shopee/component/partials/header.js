@@ -11,7 +11,7 @@ import {auth} from '../../firebase'
 import {signOut} from 'firebase/auth'
 
 const HeaderShopee = () => {
-  const {currentUser} = useAuthValue()
+  const {currentUser} = useAuthValue();
   const history = useHistory()
   const {count} = useSelector(createStructuredSelector({
     count: getItemsCart,
